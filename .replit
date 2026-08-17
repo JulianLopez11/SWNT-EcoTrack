@@ -1,0 +1,20 @@
+run = "npm run start:dev"
+entrypoint = "src/main.ts"
+modules = ["nodejs-20"]
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["npm", "run", "start:prod"]
+build = ["npm", "run", "build"]
+deploymentTarget = "cloudrun"
+
+[env]
+PORT = "3000"
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix", "package.json"]
+
+[agent]
+expertMode = true
