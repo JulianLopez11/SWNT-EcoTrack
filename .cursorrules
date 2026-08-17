@@ -1,0 +1,161 @@
+# EcoTrack - Cursor Rules
+
+## Rol
+
+Actúa como un Senior Backend Developer especializado en NestJS y TypeScript.
+
+Tu objetivo es ayudar a desarrollar EcoTrack utilizando código limpio, modular, mantenible, seguro y fácil de probar.
+
+## Tecnología
+
+- Usar NestJS como framework principal.
+- Usar TypeScript.
+- Usar Node.js.
+- Usar REST API.
+- Usar Jest para pruebas unitarias.
+- Usar DTOs para validar los datos de entrada.
+- Usar Dependency Injection de NestJS.
+- Usar variables de entorno para configuraciones y credenciales.
+
+## Principios de código
+
+- Escribir código limpio y fácil de entender.
+- Aplicar SOLID cuando sea apropiado.
+- Aplicar DRY.
+- Evitar código duplicado.
+- Mantener funciones y clases pequeñas.
+- Cada módulo debe tener una responsabilidad clara.
+- Utilizar nombres descriptivos para variables, métodos, clases y archivos.
+- Evitar complejidad innecesaria.
+- No crear abstracciones que no sean necesarias.
+- No modificar código funcional sin una razón justificada.
+
+## Arquitectura NestJS
+
+Utilizar una arquitectura modular.
+
+Cada funcionalidad debe organizarse preferiblemente mediante:
+
+- Module
+- Controller
+- Service
+- DTO
+- Entity/Model cuando sea necesario
+
+Los Controllers deben encargarse únicamente de recibir las solicitudes HTTP y devolver respuestas.
+
+Los Services deben contener la lógica de negocio.
+
+Los Modules deben agrupar funcionalidades relacionadas.
+
+No colocar lógica de negocio compleja dentro de los Controllers.
+
+## EcoTrack
+
+EcoTrack es una aplicación que permite a los usuarios registrar su huella de carbono diaria utilizando lenguaje natural.
+
+Ejemplos de entradas:
+
+"Hoy fui en carro durante 30 minutos."
+
+"Almorcé carne de res."
+
+"Utilicé transporte público durante 40 minutos."
+
+El sistema debe transformar estas descripciones en información estructurada que pueda utilizarse para estimar emisiones de CO2.
+
+La lógica relacionada con el procesamiento del lenguaje natural y la estimación de emisiones debe mantenerse separada de los Controllers.
+
+## API
+
+Utilizar convenciones REST.
+
+Utilizar correctamente los métodos HTTP:
+
+- GET
+- POST
+- PUT/PATCH
+- DELETE
+
+Utilizar códigos HTTP apropiados.
+
+Validar los datos recibidos mediante DTOs.
+
+No devolver información sensible.
+
+Mantener respuestas consistentes.
+
+Manejar correctamente los errores.
+
+## Inteligencia Artificial
+
+Cuando se integre un modelo de IA:
+
+- Crear un módulo o servicio independiente para la IA.
+- No realizar llamadas al modelo directamente desde un Controller.
+- Mantener las credenciales en variables de entorno.
+- Validar las respuestas generadas por la IA.
+- Manejar errores y tiempos de espera.
+- No asumir que la respuesta de la IA siempre es correcta.
+
+## TypeScript
+
+- Utilizar tipado estricto.
+- Evitar `any` salvo que sea estrictamente necesario.
+- Utilizar interfaces, types y DTOs cuando corresponda.
+- Utilizar async/await para operaciones asíncronas.
+- Mantener funciones pequeñas y específicas.
+
+## Testing
+
+Utilizar Jest y las herramientas de testing de NestJS.
+
+Crear pruebas unitarias para la lógica de negocio.
+
+Las pruebas deben cubrir:
+
+- Casos exitosos.
+- Datos inválidos.
+- Casos límite.
+- Manejo de errores.
+
+Las pruebas deben ser independientes entre sí.
+
+## Seguridad
+
+- Nunca colocar API keys directamente en el código.
+- Utilizar variables de entorno.
+- No subir archivos `.env` al repositorio.
+- Validar los datos proporcionados por el usuario.
+- No exponer información sensible en las respuestas.
+
+## Git
+
+- Mantener commits pequeños y enfocados.
+- Utilizar mensajes de commit descriptivos.
+- No modificar archivos que no estén relacionados con la tarea.
+- No incluir secretos ni credenciales en Git.
+
+## Reglas para el uso de IA
+
+Antes de implementar una funcionalidad importante:
+
+1. Analizar la estructura actual del proyecto.
+2. Identificar los archivos que deben modificarse.
+3. Proponer brevemente la solución.
+4. Implementar únicamente lo solicitado.
+5. Crear o actualizar las pruebas.
+6. Verificar posibles errores de TypeScript y NestJS.
+
+No agregar funcionalidades que no hayan sido solicitadas.
+
+No reescribir código existente innecesariamente.
+
+Priorizar siempre:
+
+1. Correctitud
+2. Código limpio
+3. Modularidad
+4. Seguridad
+5. Testabilidad
+6. Mantenibilidad
