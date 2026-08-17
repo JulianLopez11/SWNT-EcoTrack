@@ -1,98 +1,248 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# EcoTrack
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Aplicación web backend que permite registrar la huella de carbono diaria utilizando **lenguaje natural**. El usuario describe sus actividades en texto libre y el sistema detecta actividades de transporte y alimentación, estima las emisiones de CO₂ y devuelve un total consolidado.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+> **MVP:** parsing basado en reglas (sin IA externa), preparado para reemplazar el parser por un servicio de IA en el futuro.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Enlaces del ecosistema
 
-## Project setup
+| Recurso | Enlace |
+|---------|--------|
+| **Repositorio (GitHub)** | [https://github.com/JulianLopez11/SWNT-EcoTrack](https://github.com/JulianLopez11/SWNT-EcoTrack) |
+| **Repl (Replit)** | Importar desde GitHub → [replit.com/import/github](https://replit.com/import/github) usando la URL del repositorio. Actualiza este enlace con tu Repl público una vez desplegado. |
+| **`.cursorrules`** | [`.cursorrules`](./.cursorrules) — reglas y personalidad del agente de IA en Cursor |
+| **Vibe Report** | [`VIBE_REPORT.md`](./VIBE_REPORT.md) — reflexión sobre configuración y flujo de trabajo (≤ 500 palabras) |
+| **Captura de pantalla** | [`docs/screenshots/cursor-replit-ecosystem.png`](./docs/screenshots/pruebaPostMan.png)|
 
-```bash
-$ npm install
+---
+
+## Integración Cursor + Replit
+
+```mermaid
+flowchart LR
+  subgraph Cursor["Cursor IDE"]
+    Rules[".cursorrules"]
+    Agent["Agente IA"]
+    Code["Código NestJS"]
+    Tests["Jest Tests"]
+    Rules --> Agent --> Code --> Tests
+  end
+
+  subgraph GitHub["GitHub"]
+    Repo["SWNT-EcoTrack"]
+  end
+
+  subgraph Replit["Replit Cloud"]
+    Run["npm run start:dev"]
+    API["REST API :3000"]
+    Run --> API
+  end
+
+  Code -->|git push| Repo
+  Repo -->|Import| Replit
+  Tests -->|validación local| Code
+  API -->|demo pública| Repo
 ```
 
-## Compile and run the project
+| Entorno | Función |
+|---------|---------|
+| **Cursor** | Desarrollo asistido por IA, arquitectura, pruebas unitarias y reglas persistentes en `.cursorrules` |
+| **GitHub** | Fuente de verdad del código; puente entre Cursor y Replit |
+| **Replit** | Ejecución en la nube, demo del prototipo y verificación de despliegue |
 
-```bash
-# development
-$ npm run start
+---
 
-# watch mode
-$ npm run start:dev
+## Arquitectura
 
-# production mode
-$ npm run start:prod
+El backend sigue una arquitectura **modular** de NestJS con tres módulos independientes y un punto de extensión para IA futura.
+
+```
+src/
+├── carbon/                 # Capa de aplicación (REST)
+│   ├── carbon.controller.ts
+│   ├── carbon.service.ts
+│   └── dto/
+├── parsing/                # Interpretación de lenguaje natural
+│   ├── parsing.service.ts  → RuleBasedParsingService
+│   ├── interfaces/         → ActivityParser (contrato para IA)
+│   └── rules/
+│       ├── transport.rule.ts
+│       └── food.rule.ts
+└── emissions/              # Cálculo de huella de carbono
+    ├── emissions.service.ts
+    └── constants/
+        └── emission-factors.ts
 ```
 
-## Run tests
+### Flujo de datos
 
-```bash
-# unit tests
-$ npm run test
+```mermaid
+sequenceDiagram
+  participant C as Cliente
+  participant CC as CarbonController
+  participant CS as CarbonService
+  participant P as ActivityParser
+  participant E as EmissionsService
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+  C->>CC: POST /carbon/analyze
+  CC->>CS: analyzeDescription(texto)
+  CS->>P: parse(texto)
+  P-->>CS: ParsedActivity[]
+  CS->>E: calculateEmissions(texto, actividades)
+  E-->>CS: CarbonAnalysisResult
+  CS-->>CC: resultado
+  CC-->>C: JSON con actividades + totalCo2Kg
 ```
 
-## Deployment
+### Responsabilidades por módulo
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+| Módulo | Responsabilidad |
+|--------|-----------------|
+| **`carbon`** | Expone la API REST, valida el DTO de entrada y orquesta parsing + emisiones |
+| **`parsing`** | Detecta actividades en texto libre (transporte y alimentación) mediante reglas y keywords en español |
+| **`emissions`** | Aplica factores de emisión (kg CO₂/km o kg CO₂/comida) y calcula el total |
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Extensibilidad hacia IA
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+El servicio de parsing implementa la interfaz `ActivityParser`. Para integrar IA en el futuro:
+
+1. Crear `AiParsingService implements ActivityParser`
+2. Registrar el provider en `ParsingModule` en lugar de `RuleBasedParsingService`
+3. No modificar `CarbonController`, `CarbonService` ni `EmissionsService`
+
+---
+
+## Endpoints REST
+
+Base URL local: `http://localhost:3000`  
+Base URL Replit: `https://550b7264-4362-4cda-a9bf-382d883fbb57-00-38qv1ortabufg.spock.replit.dev/`
+
+| Método | Ruta | Descripción | Body | Respuesta |
+|--------|------|-------------|------|-----------|
+| `GET` | `/` | Health check del servidor | — | `"Hello World!"` |
+| `POST` | `/carbon/analyze` | Analiza una descripción en lenguaje natural y calcula emisiones | `{ "description": "string" }` | Actividades detectadas, emisiones por actividad y total CO₂ |
+
+### `POST /carbon/analyze`
+
+**Request:**
+
+```json
+{
+  "description": "Hoy comí carne y viajé 20km en bus"
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+**Response (200 OK):**
 
-## Resources
+```json
+{
+  "description": "Hoy comí carne y viajé 20km en bus",
+  "activities": [
+    {
+      "type": "food",
+      "category": "beef",
+      "description": "Hoy comí carne",
+      "quantity": 1,
+      "unit": "meal",
+      "co2Kg": 6.61
+    },
+    {
+      "type": "transport",
+      "category": "bus",
+      "description": "20km",
+      "quantity": 20,
+      "unit": "km",
+      "co2Kg": 1.78
+    }
+  ],
+  "totalCo2Kg": 8.39
+}
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+**Errores comunes:**
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+| Código | Causa |
+|--------|-------|
+| `400` | Body inválido (description vacía, tipo incorrecto o campos no permitidos) |
+| `422` | Validación fallida por `class-validator` |
 
-## Support
+### Ejemplo con cURL
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+curl -X POST http://localhost:3000/carbon/analyze \
+  -H "Content-Type: application/json" \
+  -d "{\"description\": \"Hoy comí carne y viajé 20km en bus\"}"
+```
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Actividades detectadas (MVP)
 
-## License
+| Tipo | Categorías | Unidad |
+|------|------------|--------|
+| **Transporte** | bus, carro, metro, tren, taxi, moto, avión, bicicleta, caminar | km |
+| **Alimentación** | carne, pollo, pescado, vegetariano, vegano | comida (meal) |
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+## Factores de emisión (referencia)
+
+| Categoría | Factor |
+|-----------|--------|
+| Bus | 0.089 kg CO₂/km |
+| Carro / Taxi | 0.21 kg CO₂/km |
+| Carne | 6.61 kg CO₂/comida |
+| Pollo | 1.57 kg CO₂/comida |
+| Caminar / Bicicleta | 0 kg CO₂/km |
+
+---
+
+## Instalación y ejecución
+
+### Local (Cursor / terminal)
+
+```bash
+npm install
+npm run start:dev    # desarrollo
+npm run build        # compilar
+npm test             # pruebas unitarias (22 tests)
+```
+
+### Replit
+
+1. Ir a [replit.com/import/github](https://replit.com/import/github)
+2. Pegar: `https://github.com/JulianLopez11/SWNT-EcoTrack`
+3. Replit detecta `.replit` y `replit.nix` automáticamente
+4. Pulsar **Run** → el servidor arranca en el puerto configurado
+
+---
+
+## Stack tecnológico
+
+| Tecnología | Uso |
+|------------|-----|
+| NestJS 11 | Framework backend |
+| TypeScript | Lenguaje principal |
+| class-validator | Validación de DTOs |
+| Jest | Pruebas unitarias |
+| Cursor + `.cursorrules` | Desarrollo asistido por IA |
+| Replit | Ejecución y demo en la nube |
+
+---
+
+## Estructura de entregables (rúbrica)
+
+| Criterio | Entregable | Estado |
+|----------|------------|--------|
+| Integridad del ecosistema | Cursor + Replit + `.cursorrules` | Configurado |
+| Ejecución técnica | API funcional, tests, build sin errores | Verificado |
+| Mentalidad Vibe Coding | `VIBE_REPORT.md` | Incluido |
+| Captura de pantalla | `docs/screenshots/cursor-replit-ecosystem.png` | Pendiente de subir |
+
+---
+
+## Licencia
+
+Proyecto académico — SWNT EcoTrack.
