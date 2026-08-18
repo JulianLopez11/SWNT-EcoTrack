@@ -1,34 +1,39 @@
 # Vibe Report — EcoTrack
 
-**Autor:** Julian Lopez  
-**Proyecto:** SWNT-EcoTrack  
-**Herramientas:** Cursor IDE + Replit + NestJS
-
----
+**Autor:** Julian Lopez
+**Proyecto:** SWNT-EcoTrack
+**Herramientas:** Cursor IDE + GitHub + Replit + NestJS
 
 ## Reflexión sobre configuración y flujo de trabajo
 
-EcoTrack nació con una premisa clara: construir un MVP funcional delegando la implementación técnica a la IA, mientras yo me concentraba en la intención del producto, la arquitectura y los criterios de calidad. En lugar de escribir cada línea manualmente, definí primero *qué* debía hacer el sistema y *cómo* debía organizarse, y dejé que Cursor ejecutara el *cómo* a nivel de código.
+EcoTrack nació con una premisa clara: construir un MVP funcional delegando la implementación técnica a la IA, mientras yo me concentraba en la intención del producto, la arquitectura y los criterios de calidad. En lugar de escribir cada línea manualmente, definí primero **qué debía hacer el sistema y cómo debía organizarse**, dejando que Cursor ejecutara el **cómo** a nivel de código.
 
 ### Configuración de la IA: `.cursorrules`
 
-El archivo [`.cursorrules`](./.cursorrules) actúa como el contrato entre mi visión y el agente. No es un prompt genérico: establece el rol (Senior Backend Developer en NestJS), las convenciones arquitectónicas (módulos, controllers delgados, services con lógica de negocio), reglas de testing con Jest, y restricciones explícitas como no integrar IA externa en el MVP ni agregar funcionalidades fuera de alcance. Esto evita deriva de scope y mantiene coherencia en cada iteración.
+El archivo `.cursorrules` funciona como un contrato entre mi visión y el agente de IA. Define el rol de Senior Backend Developer, el stack tecnológico, las convenciones de NestJS, testing, seguridad, Git y reglas para el uso responsable de IA.
 
-La decisión más importante fue separar el parsing del cálculo de emisiones mediante una interfaz `ActivityParser`. Así, el MVP usa reglas basadas en patrones, pero el diseño ya contempla reemplazar ese componente por un servicio de IA sin reescribir controllers ni la capa de emisiones. La IA implementó; yo diseñé el punto de extensión.
+También establece límites explícitos para evitar deriva de alcance: no agregar funcionalidades no solicitadas ni integrar servicios externos de IA durante el MVP. Esto permite que las decisiones tomadas por Cursor mantengan coherencia durante las diferentes iteraciones.
 
-### Flujo Cursor ↔ Replit
+Una decisión arquitectónica importante fue separar el parsing y el cálculo de emisiones mediante la interfaz `ActivityParser`. El MVP utiliza reglas basadas en patrones, pero esta separación permite reemplazar posteriormente el parser por un servicio de IA sin modificar los Controllers ni la lógica principal de emisiones. **La IA implementó; yo diseñé el punto de extensión.**
 
-El ecosistema se divide en dos capas complementarias:
+### Flujo Cursor → GitHub → Replit
 
-| Entorno | Rol |
-|---------|-----|
-| **Cursor** | Diseño, iteración con IA, pruebas unitarias, refactor y reglas persistentes |
-| **Replit** | Ejecución en la nube, demo pública y validación del prototipo desplegado |
+El flujo de trabajo se dividió en tres responsabilidades:
 
-En Cursor desarrollé la arquitectura modular (`carbon`, `parsing`, `emissions`), generé 22 pruebas unitarias y resolví un bug sutil en el parser (el separador de segmentos partía decimales como `12,5 km`). En Replit importé el repositorio de GitHub para verificar que el servidor arranca con `0.0.0.0` y el puerto dinámico de la nube, confirmando que el prototipo no depende del entorno local.
+| Entorno    | Responsabilidad                                                                  |
+| ---------- | -------------------------------------------------------------------------------- |
+| **Cursor** | Diseño, implementación asistida por IA, pruebas, refactor y aplicación de reglas |
+| **GitHub** | Versionamiento y almacenamiento del código fuente                                |
+| **Replit** | Ejecución en la nube, despliegue y validación del prototipo                      |
+
+En Cursor desarrollé la arquitectura modular (`carbon`, `parsing` y `emissions`), generé las pruebas unitarias y resolví un bug del parser relacionado con la separación de segmentos que podía afectar valores decimales como `12,5 km`.
+
+Posteriormente, el repositorio fue integrado con Replit para verificar que el servidor funcionara correctamente en el entorno de nube, utilizando `0.0.0.0` y el puerto dinámico proporcionado por la plataforma.
 
 ### Mentalidad Vibe Coding
 
-Vibe coding, para mí, no es "no entender el código". Es invertir el esfuerzo: más tiempo en definir requisitos, revisar diffs y validar comportamiento. En este caso prioricé la intención ("interpretar lenguaje natural de huella de carbono") sobre la implementación manual de regex o factores de emisión, pero revisé cada módulo para asegurar testabilidad y separación de responsabilidades.
+Para mí, vibe coding no significa dejar de entender el código. Significa **cambiar dónde se invierte el esfuerzo**: menos tiempo escribiendo código repetitivo y más tiempo definiendo requisitos, arquitectura, restricciones, revisando diffs y validando resultados.
 
-La IA resolvió problemas complejos (orquestación NestJS, inyección por token, validación con DTOs); yo validé que la solución fuera mínima, extensible y alineada con la rúbrica. El resultado es un backend que compila, pasa tests y expone un endpoint REST claro — construido colaborativamente, no copiado sin criterio.
+La IA resolvió tareas complejas de implementación, como la estructura de NestJS, inyección de dependencias, DTOs y pruebas. Mi responsabilidad fue mantener el control sobre la intención del producto, revisar las decisiones técnicas y verificar que el resultado fuera correcto, mínimo, extensible y mantenible.
+
+El resultado es un backend funcional construido colaborativamente: **la IA acelera la implementación, mientras el desarrollador conserva el criterio arquitectónico y la responsabilidad sobre el resultado.**
