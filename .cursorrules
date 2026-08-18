@@ -8,27 +8,27 @@ Tu objetivo es ayudar a desarrollar EcoTrack utilizando código limpio, modular,
 
 ## Tecnología
 
-- Usar NestJS como framework principal.
-- Usar TypeScript.
-- Usar Node.js.
-- Usar REST API.
-- Usar Jest para pruebas unitarias.
-- Usar DTOs para validar los datos de entrada.
-- Usar Dependency Injection de NestJS.
-- Usar variables de entorno para configuraciones y credenciales.
+* Usar NestJS como framework principal.
+* Usar TypeScript.
+* Usar Node.js.
+* Usar REST API.
+* Usar Jest para pruebas unitarias.
+* Usar DTOs para validar los datos de entrada.
+* Usar Dependency Injection de NestJS.
+* Usar variables de entorno para configuraciones y credenciales.
 
 ## Principios de código
 
-- Escribir código limpio y fácil de entender.
-- Aplicar SOLID cuando sea apropiado.
-- Aplicar DRY.
-- Evitar código duplicado.
-- Mantener funciones y clases pequeñas.
-- Cada módulo debe tener una responsabilidad clara.
-- Utilizar nombres descriptivos para variables, métodos, clases y archivos.
-- Evitar complejidad innecesaria.
-- No crear abstracciones que no sean necesarias.
-- No modificar código funcional sin una razón justificada.
+* Escribir código limpio y fácil de entender.
+* Aplicar SOLID cuando sea apropiado.
+* Aplicar DRY.
+* Evitar código duplicado.
+* Mantener funciones y clases pequeñas.
+* Cada módulo debe tener una responsabilidad clara.
+* Utilizar nombres descriptivos para variables, métodos, clases y archivos.
+* Evitar complejidad innecesaria.
+* No crear abstracciones que no sean necesarias.
+* No modificar código funcional sin una razón justificada.
 
 ## Arquitectura NestJS
 
@@ -36,11 +36,11 @@ Utilizar una arquitectura modular.
 
 Cada funcionalidad debe organizarse preferiblemente mediante:
 
-- Module
-- Controller
-- Service
-- DTO
-- Entity/Model cuando sea necesario
+* Module
+* Controller
+* Service
+* DTO
+* Entity/Model cuando sea necesario
 
 Los Controllers deben encargarse únicamente de recibir las solicitudes HTTP y devolver respuestas.
 
@@ -66,16 +66,24 @@ El sistema debe transformar estas descripciones en información estructurada que
 
 La lógica relacionada con el procesamiento del lenguaje natural y la estimación de emisiones debe mantenerse separada de los Controllers.
 
+## Alcance del MVP
+
+* Mantener el MVP enfocado en el registro y procesamiento de actividades relacionadas con la huella de carbono.
+* No integrar modelos o servicios externos de IA salvo que sean solicitados explícitamente.
+* Mantener el procesamiento del lenguaje desacoplado mediante la interfaz `ActivityParser`.
+* No agregar funcionalidades que estén fuera del alcance definido.
+* Priorizar una arquitectura que permita reemplazar posteriormente el parser basado en reglas por un servicio de IA sin modificar los Controllers ni la lógica principal de emisiones.
+
 ## API
 
 Utilizar convenciones REST.
 
 Utilizar correctamente los métodos HTTP:
 
-- GET
-- POST
-- PUT/PATCH
-- DELETE
+* GET
+* POST
+* PUT/PATCH
+* DELETE
 
 Utilizar códigos HTTP apropiados.
 
@@ -91,20 +99,21 @@ Manejar correctamente los errores.
 
 Cuando se integre un modelo de IA:
 
-- Crear un módulo o servicio independiente para la IA.
-- No realizar llamadas al modelo directamente desde un Controller.
-- Mantener las credenciales en variables de entorno.
-- Validar las respuestas generadas por la IA.
-- Manejar errores y tiempos de espera.
-- No asumir que la respuesta de la IA siempre es correcta.
+* Crear un módulo o servicio independiente para la IA.
+* No realizar llamadas al modelo directamente desde un Controller.
+* Mantener las credenciales en variables de entorno.
+* Validar las respuestas generadas por la IA.
+* Manejar errores y tiempos de espera.
+* No asumir que la respuesta de la IA siempre es correcta.
+* Mantener la integración desacoplada de la lógica principal del sistema.
 
 ## TypeScript
 
-- Utilizar tipado estricto.
-- Evitar `any` salvo que sea estrictamente necesario.
-- Utilizar interfaces, types y DTOs cuando corresponda.
-- Utilizar async/await para operaciones asíncronas.
-- Mantener funciones pequeñas y específicas.
+* Utilizar tipado estricto.
+* Evitar `any` salvo que sea estrictamente necesario.
+* Utilizar interfaces, types y DTOs cuando corresponda.
+* Utilizar async/await para operaciones asíncronas.
+* Mantener funciones pequeñas y específicas.
 
 ## Testing
 
@@ -114,27 +123,27 @@ Crear pruebas unitarias para la lógica de negocio.
 
 Las pruebas deben cubrir:
 
-- Casos exitosos.
-- Datos inválidos.
-- Casos límite.
-- Manejo de errores.
+* Casos exitosos.
+* Datos inválidos.
+* Casos límite.
+* Manejo de errores.
 
 Las pruebas deben ser independientes entre sí.
 
 ## Seguridad
 
-- Nunca colocar API keys directamente en el código.
-- Utilizar variables de entorno.
-- No subir archivos `.env` al repositorio.
-- Validar los datos proporcionados por el usuario.
-- No exponer información sensible en las respuestas.
+* Nunca colocar API keys directamente en el código.
+* Utilizar variables de entorno.
+* No subir archivos `.env` al repositorio.
+* Validar los datos proporcionados por el usuario.
+* No exponer información sensible en las respuestas.
 
 ## Git
 
-- Mantener commits pequeños y enfocados.
-- Utilizar mensajes de commit descriptivos.
-- No modificar archivos que no estén relacionados con la tarea.
-- No incluir secretos ni credenciales en Git.
+* Mantener commits pequeños y enfocados.
+* Utilizar mensajes de commit descriptivos.
+* No modificar archivos que no estén relacionados con la tarea.
+* No incluir secretos ni credenciales en Git.
 
 ## Reglas para el uso de IA
 
