@@ -14,7 +14,6 @@ Aplicación web backend que permite registrar la huella de carbono diaria utiliz
 | **Repl (Replit)** | Importar desde GitHub → [replit.com/import/github](https://replit.com/import/github) usando la URL del repositorio. Actualiza este enlace con tu Repl público una vez desplegado. |
 | **`.cursorrules`** | [`.cursorrules`](./.cursorrules) — reglas y personalidad del agente de IA en Cursor |
 | **Vibe Report** | [`VIBE_REPORT.md`](./VIBE_REPORT.md) — reflexión sobre configuración y flujo de trabajo (≤ 500 palabras) |
-| **Captura de pantalla** | [`docs/screenshots/cursor-replit-ecosystem.png`](./docs/screenshots/pruebaPostMan.png)|
 
 ---
 
@@ -242,7 +241,9 @@ npm test             # pruebas unitarias (22 tests)
 | Captura de pantalla | `docs/screenshots/cursor-replit-ecosystem.png` | Pendiente de subir |
 
 ---
+## ScreenShots
 
+![alt text](docs/screenshots/pruebaPostMan.png)
 ## Licencia
 
 Proyecto académico — SWNT EcoTrack.
