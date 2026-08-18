@@ -244,6 +244,8 @@ npm test             # pruebas unitarias (22 tests)
 ## ScreenShots
 
 ![alt text](docs/screenshots/pruebaPostMan.png)
+
+![alt text](docs/screenshots/image.png)
 ## Licencia
 
 Proyecto académico — SWNT EcoTrack.
